@@ -1,7 +1,9 @@
-import markdown as md
+import markdown
 import argparse
 import os
 from pathlib import Path
+
+md = markdown.Markdown(extensions=["meta"])
 
 """
 Parse command line arguments.
@@ -12,25 +14,6 @@ def parse_args():
     parser.add_argument("input", metavar="<INPUT>", help="Specify a site folder to build. Markdown files in this directory will be converted to HTML. Sub-directories starting with '-' will be skipped; all other files will be copied in-place.")
     parser.add_argument("output", metavar="<OUTPUT>", help="Specify a folder for the built site.")
     return parser.parse_args()
-
-
-"""
-Read the template directory and return a list of template strings.
-"""
-def get_templates(site_dir):
-
-    # Get the directory to work with.
-    templates_dir = os.path.join(site_dir, "_templates")
-
-    # Create a list of templates (strings), prior to being formatted.
-    templates = []
-    for template_file in os.listdir(templates_dir):
-        if template_file.endswith(".html"):
-            template_path = os.path.join(templates_dir, template_file)
-            with open(template_path, "r") as f:
-                templates.append(f.read())
-
-    return templates
 
 
 """
@@ -54,7 +37,12 @@ def get_snippets(site_dir):
 """
 Takes a template (string) and dictionary of snippets and substitutes occurences of dict keys with the dict content.
 """
-def format_template(template, snippets):
+def format_template(site_dir, template, snippets):
+
+    templates_dir = os.path.join(site_dir, "_templates")
+    template_path = os.path.join(templates_dir, template + ".html")
+    with open(template_path, "r") as f:
+        template = f.read()
 
     for snippet_name in snippets:
         template = template.replace(snippet_name, snippets[snippet_name])
@@ -69,23 +57,41 @@ def convert_md_to_html(input_file):
 
     md.reset()
     content = md.convert(md_content)
+    meta = md.Meta
 
-    return content
+    return content, meta
+
+"""
+Build a page.
+First, check which template a page wants to use. Then, find that template and format it.
+Then, convert the page's Markdown into HTML. Then, insert that HTML into the template.
+Then, return that HTML.
+"""
+def build_page(site_dir, page, snippets):
+    content, meta = convert_md_to_html(page)
+    template = format_template(site_dir, meta["template"][0], snippets)
+    built_page = template.format(content=content)
+
+    return built_page
 
 def main():
     args = parse_args()
     site_dir = args.input
     dest_dir = args.output
 
-    templates = get_templates(site_dir)
     snippets = get_snippets(site_dir)
 
-    formatted_templates = []
-    for template in templates:
-        formatted_templates.append(format_template(template, snippets))
+    page = build_page(site_dir, os.path.join(site_dir, "index.md"), snippets)
 
-    print(formatted_templates)
+    output_dir = dest_dir
 
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    with open(os.path.join(dest_dir, "index.html"), "w") as f:
+        f.write(page)
+    # format_template(site_dir, "global", snippets)
+    #print(convert_md_to_html(os.path.join(site_dir, "index.md")))
 
 
 if __name__ == "__main__":
