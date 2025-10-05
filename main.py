@@ -1,9 +1,11 @@
 import markdown
 import argparse
 import os
+import shutil
 from pathlib import Path
 
-md = markdown.Markdown(extensions=["meta"])
+md = markdown.Markdown(extensions=["meta"]) # Set up md with extensions
+
 
 """
 Parse command line arguments.
@@ -51,6 +53,9 @@ def format_template(site_dir, template, snippets):
     return formatted_template
 
 
+"""
+Converts Markdown to HTML. Returns both the HTML and a dict of the metadata.
+"""
 def convert_md_to_html(input_file):
     with open(input_file, "r") as f:
         md_content = f.read()
@@ -61,11 +66,10 @@ def convert_md_to_html(input_file):
 
     return content, meta
 
+
 """
-Build a page.
-First, check which template a page wants to use. Then, find that template and format it.
-Then, convert the page's Markdown into HTML. Then, insert that HTML into the template.
-Then, return that HTML.
+Build a page. First, get the converted content and metadata. Then determine which template the page wants to use.
+Format the template, add the content to the template, and return it as text.
 """
 def build_page(site_dir, page, snippets):
     content, meta = convert_md_to_html(page)
@@ -74,6 +78,15 @@ def build_page(site_dir, page, snippets):
 
     return built_page
 
+
+"""
+Build the site. First, copy everything except .md files and folders prefixed with '_' to the destination.
+Then, iterate through the .md files and build them into pages.
+"""
+def build_site(site_dir, dest_dir, snippets):
+    shutil.copytree(site_dir, dest_dir, ignore=ignore_patterns('*.md', '_*'), dirs_exist_ok=True)
+
+
 def main():
     args = parse_args()
     site_dir = args.input
@@ -81,15 +94,17 @@ def main():
 
     snippets = get_snippets(site_dir)
 
-    page = build_page(site_dir, os.path.join(site_dir, "index.md"), snippets)
+    # page = build_page(site_dir, os.path.join(site_dir, "index.md"), snippets)
 
-    output_dir = dest_dir
+    # output_dir = dest_dir
 
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    #if not os.path.exists(output_dir):
+     #   os.makedirs(output_dir)
 
-    with open(os.path.join(dest_dir, "index.html"), "w") as f:
-        f.write(page)
+    #with open(os.path.join(dest_dir, "index.html"), "w") as f:
+     #   f.write(page)
+
+    build_site(site_dir, dest_dir, snippets)
     # format_template(site_dir, "global", snippets)
     #print(convert_md_to_html(os.path.join(site_dir, "index.md")))
 
