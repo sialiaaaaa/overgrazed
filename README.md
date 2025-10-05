@@ -1,0 +1,2 @@
+# About
+There are a lot of static site generators. I know this because, frustrated with [Cobalt](https://cobalt-org.github.io/) and [Jekyll](https://jekyllrb.com/), I set about looking for alternatives. I found [many](https://github.com/myles/awesome-static-generators). Rather than weed through them looking for one that behaved the way I wanted it to, I decided to write my own. I assume this same reasoning is why there are so many.
