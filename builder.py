@@ -83,7 +83,7 @@ def build_site(site_dir, dest_dir):
 
     for root, dirs, files in os.walk(site_dir):
         for filename in files:
-            if filename.endswith(".md" or ".markdown"):
+            if filename.endswith(".md"):
                 current_file_path = root.replace(site_dir, "")
                 built_page = build_page(site_dir, os.path.join(site_dir, current_file_path, filename))
                 new_filename = Path(filename).stem + ".html"

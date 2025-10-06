@@ -1,5 +1,7 @@
 import os
+import sys
 import shutil
+import tempfile
 
 def generate_template(template_dir):
     with open(os.path.join(template_dir, "default.html"), "w") as f:
@@ -55,17 +57,36 @@ def generate_css(directory):
         f.write("")
 
 def create_new_site(directory):
-    root = directory
+    root = os.path.join(tempfile.gettempdir(), os.path.basename(os.path.normpath(directory)))
     template_dir = os.path.join(root, "_templates")
     snippets_dir = os.path.join(root, "_snippets")
-    os.makedirs(template_dir)
-    os.makedirs(snippets_dir)
+    shutil.rmtree(root, ignore_errors=True)
+
+    try:
+        print(f"Creating temporary directory {root}...")
+        os.makedirs(root)
+        print(f"Creating template directory...")
+        os.makedirs(template_dir)
+        print(f"Creating snippets directory...")
+        os.makedirs(snippets_dir)
+    except Exception as e:
+        print(f"Could not create one or more directories.\n{e}\nCleaning up and exiting...")
+        shutil.rmtree(root)
+        sys.exit()
 
     generate_template(template_dir)
     generate_snippets(snippets_dir)
     generate_index(root)
     generate_css(root)
 
-    print(f"Created a new blank site at {root}!")
+    try:
+        print(f"Creating your site...")
+        shutil.copytree(root, directory)
+    except Exception as e:
+        print(f"Could not copy temporary site to {directory}.\n{e}\nCleaning up and exiting...")
+        shutil.rmtree(root)
+        sys.exit()
+
+    print(f"Created a new blank site at {directory}!")
 
 
