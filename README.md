@@ -1,6 +1,3 @@
-# About
-There are a lot of static site generators. I know this because, frustrated with [Cobalt](https://cobalt-org.github.io/) and [Jekyll](https://jekyllrb.com/), I set about looking for alternatives. I found [many](https://github.com/myles/awesome-static-generators). Rather than weed through them looking for one that behaved the way I wanted it to, I decided to write my own. I assume this same reasoning is why there are so many.
-
 # Documentation
 
 ## Quickstart guide
@@ -22,3 +19,9 @@ Each page (a `.md` file) should have **frontmatter**; effectively metadata for t
 ## WikiLinks
 
 Overgrazed has support for [WikiLinks](https://en.wikipedia.org/wiki/Wiki#Linking_to_and_naming_pages) style linking. Specifically, links like `[[path/to/page name]]` will link to files on your site.
+
+# Frequently asked questions
+
+***Why?*** I originally was trying to make my [very simple website](sialia.dev) with [Cobalt](https://cobalt-org.github.io/). It worked well enough, but for certain implementations I was frustrated with the lack of control I had over its inner workings. Looking for alternatives, I found [too many](https://github.com/myles/awesome-static-generators); rather than weed through all of these looking for one that behaved the way I wanted, I decided to write my own. I suspect this reasoning is why there are so many.
+
+***No, I mean, why the name?*** Because the idea and a lot of the implementation are thanks to [Cosmo](https://cosmo.tardis.ac/). "Overgrazed" references the [Tragedy of the commons](https://en.wikipedia.org/wiki/Tragedy_of_the_commons), where someone takes advantage of a shared resource; in this case, Cosmo's willingness to send me their script for converting Markdown into HTML.
