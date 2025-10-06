@@ -3,13 +3,22 @@ There are a lot of static site generators. I know this because, frustrated with 
 
 # Documentation
 
-## Guide
+## Quickstart guide
+
+Use the `-n` option to create a new blank site in a directory. Amend the generated templates and snippets as desired (or create your own!) and write CSS and Markdown in the files provided. You can make as many Markdown pages as you like, linking between them with WikiLinks syntax (see below).
+
+When you're ready to see your site, use the `-b` option. This will build the site into `_site`. You can preview the site by opening `_site/index.html` in a browser of your choice.
 
 ## Templates and snippets
-Overgrazed expects to find folders called `_templates` and `_snippets` in your site folder, and it uses the contents of these folders to build your site. 
 
-Create a folder for your site source files. Inside it, create directories called `_templates` and `_snippets`. In `_templates`, put HTML templates that you want your Markdown pages to use. Within the templates, you can refer to snippets by writing `%snippet_name%`. Also put `{content}` somewhere; this is where the Markdown-converted-to-HTML will go. In `_snippets`, put HTML files with bits of HTML you want to be able to insert into templates (header, footer, etc.).
+**Templates** are bits of HTML stored as files in `_templates`. A template is the HTMl that a page's content will be wrapped in when the site is built. Each page must have a template specified in its frontmatter (see below).
 
-Then, write Markdown files. The Markdown files will get converted into HTML and substituted for `{content}` in the relevant template.
+Templates can make reference to **snippets**, even smaller bits of HTML you might want to repeat across multiple templates. Snippets are stored in `_snippets` and can be referenced within templates by writing `%<snippet name>%`.
 
-Note that Overgrazed is **non-destructive**, meaning that you will need to delete files in your output `_site` folder if you want them removed from your site; files absent from your website when you build it are not deleted.
+## Frontmatter
+
+Each page (a `.md` file) should have **frontmatter**; effectively metadata for that page. Currently, Overgrazed supports only the `template` option, which is required by every page and determines which template to insert that page's content into.
+
+## WikiLinks
+
+Overgrazed has support for [WikiLinks](https://en.wikipedia.org/wiki/Wiki#Linking_to_and_naming_pages) style linking. Specifically, links like `[[path/to/page name]]` will link to files on your site.

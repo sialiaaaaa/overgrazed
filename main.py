@@ -10,8 +10,8 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", help="Show verbose output.", action="store_true")
     commands = parser.add_mutually_exclusive_group()
-    commands.add_argument("-b", "--build", help="Build a site in the specified directory. The site will be built to _site/")
-    commands.add_argument("-n", "--new", help="Create a new blank site in the specified directory.")
+    commands.add_argument("-b", "--build", metavar="<DIR>", help="Build a site in the specified directory. The site will be built to <DIR>/_site/")
+    commands.add_argument("-n", "--new", metavar="<DIR>", help="Create a new blank site in the specified directory.")
     return parser.parse_args()
 
 
