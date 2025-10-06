@@ -4,17 +4,9 @@ import os
 import shutil
 from pathlib import Path
 
-
-"""
-Construct URLs for wiki linking. Convert titles to lowercase with hypenated spaces, append ".html" to the end, and determine the location and append that to the front.
-"""
-def build_url(label, base, end):
-    title = label.lower().replace(" ", "-")
-    return title+".html"
-
-md = markdown.Markdown(extensions=["meta", "footnotes", "wikilinks"],
+md = markdown.Markdown(extensions=["meta", "footnotes", "mdx_wikilink_plus"],
                        extension_configs={
-                           "wikilinks": {"build_url": build_url}
+                           "mdx_wikilink_plus": {"end_url": ".html", "url_whitespace": "-", "url_case": "lowercase"}
                            }
                        ) # Set up md with extensions
 
@@ -114,19 +106,7 @@ def main():
 
     snippets = get_snippets(site_dir)
 
-    # page = build_page(site_dir, os.path.join(site_dir, "index.md"), snippets)
-
-    # output_dir = dest_dir
-
-    #if not os.path.exists(output_dir):
-     #   os.makedirs(output_dir)
-
-    #with open(os.path.join(dest_dir, "index.html"), "w") as f:
-     #   f.write(page)
-
     build_site(site_dir, dest_dir, snippets)
-    # format_template(site_dir, "global", snippets)
-    #print(convert_md_to_html(os.path.join(site_dir, "index.md")))
 
 
 if __name__ == "__main__":
