@@ -4,7 +4,19 @@ import os
 import shutil
 from pathlib import Path
 
-md = markdown.Markdown(extensions=["meta", "footnotes"]) # Set up md with extensions
+
+"""
+Construct URLs for wiki linking. Convert titles to lowercase with hypenated spaces, append ".html" to the end, and determine the location and append that to the front.
+"""
+def build_url(label, base, end):
+    title = label.lower().replace(" ", "-")
+    return title+".html"
+
+md = markdown.Markdown(extensions=["meta", "footnotes", "wikilinks"],
+                       extension_configs={
+                           "wikilinks": {"build_url": build_url}
+                           }
+                       ) # Set up md with extensions
 
 
 """
@@ -90,7 +102,6 @@ def build_site(site_dir, dest_dir, snippets):
         for filename in files:
             if filename.endswith(".md" or ".markdown"):
                 current_file_path = root.replace(site_dir, "")
-                print(os.path.join(root.replace(site_dir, ""), filename))
                 built_page = build_page(site_dir, os.path.join(site_dir, current_file_path, filename), snippets)
                 new_filename = Path(filename).stem + ".html"
                 with open(os.path.join(dest_dir, current_file_path, new_filename), "w") as f:
