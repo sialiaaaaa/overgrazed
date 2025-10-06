@@ -85,13 +85,16 @@ Then, iterate through the .md files and build them into pages.
 """
 def build_site(site_dir, dest_dir, snippets):
     shutil.copytree(site_dir, dest_dir, ignore=shutil.ignore_patterns('*.md', '_*'), dirs_exist_ok=True) # Copy irrelevant files over.
-    for filename in os.listdir(site_dir):
-        if filename.endswith(".md" or ".markdown"):
-            built_page = build_page(site_dir, os.path.join(site_dir, filename), snippets)
-            new_filename = Path(filename).stem + ".html"
-            with open(os.path.join(dest_dir, new_filename), "w") as f:
-                f.write(built_page)
 
+    for root, dirs, files in os.walk(site_dir):
+        for filename in files:
+            if filename.endswith(".md" or ".markdown"):
+                current_file_path = root.replace(site_dir, "")
+                print(os.path.join(root.replace(site_dir, ""), filename))
+                built_page = build_page(site_dir, os.path.join(site_dir, current_file_path, filename), snippets)
+                new_filename = Path(filename).stem + ".html"
+                with open(os.path.join(dest_dir, current_file_path, new_filename), "w") as f:
+                    f.write(built_page)
 
 def main():
     args = parse_args()
