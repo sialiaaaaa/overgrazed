@@ -3,6 +3,7 @@ import argparse
 import os
 import shutil
 import builder
+from validator import is_ignored_filename
 from pathlib import Path
 
 md = markdown.Markdown(extensions=["meta", "footnotes", "mdx_wikilink_plus"],
@@ -79,7 +80,11 @@ Build the site. First, copy everything except .md files and folders prefixed wit
 Then, iterate through the .md files and build them into pages.
 """
 def build_site(site_dir, dest_dir):
-    shutil.copytree(site_dir, dest_dir, ignore=shutil.ignore_patterns('*.md', '_*', '.*'), dirs_exist_ok=True) # Copy irrelevant files over
+    shutil.copytree(
+        site_dir,
+        dest_dir,
+        ignore=lambda directory, contents: {name for name in contents if is_ignored_filename(name)}.union({name for name in contents if name.endswith('.md') or name.startswith('_')}),
+        dirs_exist_ok=True) # Copy irrelevant files over
 
     for root, dirs, files in os.walk(site_dir): # Walk the site directory searching for Markdown files
         for filename in files:

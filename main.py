@@ -19,16 +19,17 @@ def parse_args():
 
 
 def main():
+
     args = parse_args() # Create an instance of the args
 
     if args.build:
         site_dir = args.build
         dest_dir = os.path.join(site_dir, "_site")
-        try:
-            builder.build_site(site_dir, dest_dir) # If the --build option was chosen, attempt to build the specified site
-            print(f"Successfully built site into {dest_dir}")
-        except Exception as e:
-            print(f"Failed to build site: {e}")
+        #try:
+        builder.build_site(site_dir, dest_dir) # If the --build option was chosen, attempt to build the specified site
+         #   print(f"Successfully built site into {dest_dir}")
+        #except Exception as e:
+         #   print(f"Failed to build site: {e}")
 
     if args.serve:
         site_dir = args.serve
