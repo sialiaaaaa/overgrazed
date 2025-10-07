@@ -8,7 +8,7 @@ When you're ready to see your site, use the `-b` option. This will build the sit
 
 ## Templates and snippets
 
-**Templates** are bits of HTML stored as files in `_templates`. A template is the HTMl that a page's content will be wrapped in when the site is built. Each page must have a template specified in its frontmatter (see below).
+**Templates** are bits of HTML stored as files in `_templates`. A template is the HTML that a page's content will be wrapped in when the site is built. Each page must have a template specified in its frontmatter (see below).
 
 Templates can make reference to **snippets**, even smaller bits of HTML you might want to repeat across multiple templates. Snippets are stored in `_snippets` and can be referenced within templates by writing `%<snippet name>%`.
 
