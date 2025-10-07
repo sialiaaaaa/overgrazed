@@ -95,7 +95,7 @@ def build_site(site_dir, dest_dir):
 
     for root, dirs, files in os.walk(site_dir):
         for filename in files:
-            if filename.endswith(".md"): # Search for markdown files
+            if filename.endswith(".md") and not is_ignored_filename(filename): # Search for markdown files
                 source_path = os.path.join(root, filename)
                 relative_dir = os.path.relpath(root, site_dir) # Get the relative path to the current file
                 target_dir = os.path.join(dest_dir, relative_dir) if relative_dir != "." else dest_dir # Make sure the location in the site folder isn't its root

@@ -13,7 +13,9 @@ ignored_patterns = [
     (None, '.DS_Store', None),
     (None, 'Thumbs.db', None),
     (None, '.goutputstream', None),
-    ('.', '.kate-swp', None)
+    ('.', '.kate-swp', None),
+    ('.git', None, None),
+    ('README', None, None)
 ]
 
 
