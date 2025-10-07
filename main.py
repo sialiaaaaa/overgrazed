@@ -5,10 +5,11 @@ import server
 import os
 import sys
 
-"""
-Parse command line arguments.
-"""
+
 def parse_args():
+    """
+    Parse command line arguments.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", help="show verbose output", action="store_true") # Not in use
     commands = parser.add_mutually_exclusive_group()

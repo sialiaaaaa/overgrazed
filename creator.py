@@ -4,10 +4,11 @@ import shutil
 import tempfile
 
 
-"""
-Generates the model template into a supplied directory
-"""
+
 def generate_template(template_dir):
+    """
+    Generates the model template into a supplied directory
+    """
     with open(os.path.join(template_dir, "default.html"), "w") as f: # Write the default template
         f.write("""<!DOCTYPE html>
 <html lang="">
@@ -28,10 +29,10 @@ def generate_template(template_dir):
 </html>""")
 
 
-"""
-Generates the model snippets into a supplied directory
-"""
 def generate_snippets(snippets_dir):
+    """
+    Generates the model snippets into a supplied directory
+    """
     with open(os.path.join(snippets_dir, "head.html"), "w") as f: # Write the default head snippet
         f.write("""<meta charset="utf-8">
 <link rel="stylesheet" href="styles.css">
@@ -44,10 +45,10 @@ def generate_snippets(snippets_dir):
         f.write("""<p>My Website Footer</p>""")
 
 
-"""
-Generates the model index into a supplied directory
-"""
 def generate_index(directory):
+    """
+    Generates the model index into a supplied directory
+    """
     with open(os.path.join(directory, "index.md"), "w") as f: # Write the default index page
         f.write("""template: default
 
@@ -56,20 +57,20 @@ def generate_index(directory):
 Try editing this page or creating some more!""")
 
 
-"""
-Generates a blank css file into a supplied directory
-"""
 def generate_css(directory):
+    """
+    Generates a blank css file into a supplied directory
+    """
     with open(os.path.join(directory, "styles.css"), "w") as f: # Create an empty styles.css
         f.write("")
 
 
-"""
-Finds an appropriate temp directory to create the site, then
-basically just calls the above functions, with some checks and error handling.
-Finally, copies the site atomically to the target destination.
-"""
 def create_new_site(directory):
+    """
+    Finds an appropriate temp directory to create the site, then
+    basically just calls the above functions, with some checks and error handling.
+    Finally, copies the site atomically to the target destination.
+    """
     root = os.path.join(tempfile.gettempdir(), os.path.basename(os.path.normpath(directory))) # Find the system temp directory and use it as the site root
     shutil.rmtree(root, ignore_errors=True) # Delete anything already in the temporary root
 
