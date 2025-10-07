@@ -39,6 +39,8 @@ def format_template(site_dir, template):
 
     templates_dir = os.path.join(site_dir, "_templates")
     template_path = os.path.join(templates_dir, template + ".html") # Open a template file and read it into a variable
+    if not os.path.exists(template_path):
+        raise FileNotFoundError(f"\"{template}\" was not found in the _templates directory.")
     with open(template_path, "r") as f:
         template = f.read()
 
@@ -68,7 +70,12 @@ def build_page(site_dir, page):
     Format the template, add the content to the template, and return it as text.
     """
     content, meta = convert_md_to_html(page) # Get the page content and metadata
-    template = format_template(site_dir, meta["template"][0]) # Use the metadata to figure out which template to use, then format that template
+    if "template" in meta:
+        template = format_template(site_dir, meta["template"][0]) # Use the metadata to figure out which template to use, then format that template
+    else:
+        raise ValueError(f"No template frontmatter was provided for page \"{page}\"")
+
+
     built_page = template.format(content=content) # Apply the content to the formatted template
 
     return built_page

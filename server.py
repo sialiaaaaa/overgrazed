@@ -28,7 +28,6 @@ class DiffHandler(FileSystemEventHandler):
 
     def on_modified(self, event):
         if not self._should_ignore(event.src_path):
-            print(f"Rebuilt site.")
             self.callback(*self.args, **self.kwargs) # Calls the callback function if the directory is modified
 
 
@@ -42,13 +41,22 @@ def start_server(directory, port):
     print(f"Serving '{directory}' at http://localhost:{port}")
     server.serve_forever() # Serve it
 
+def rebuild_site(site_dir, dest_dir):
+    try:
+        builder.build_site(site_dir, dest_dir)
+        print(f"Rebuilt site to {dest_dir}")
+    except Exception as e:
+        print(f"Failed to rebuild site: {e}")
 
 def serve_site(site_dir, dest_dir, port):
 
-    builder.build_site(site_dir, dest_dir) # Build the site once to start
-    print(f"Building site to {dest_dir}")
+    try:
+        builder.build_site(site_dir, dest_dir) # Build the site once to start
+        print(f"Built site to {dest_dir}")
+    except Exception as e:
+        print(f"Failed to build site: {e}")
 
-    event_handler = DiffHandler(builder.build_site, [dest_dir], site_dir, dest_dir) # Create an event handler with the build function as a callback
+    event_handler = DiffHandler(rebuild_site, [dest_dir], site_dir, dest_dir) # Create an event handler with the build function as a callback
     observer = Observer()
     observer.schedule(event_handler, site_dir, recursive=True) # Create the observer to watch for changes to the directory
     observer.start()
@@ -59,9 +67,8 @@ def serve_site(site_dir, dest_dir, port):
     try:
         while True:
             time.sleep(1) # Wait briefly each time to not be annoying
-
-    except Exception as e:
-        print(f"No longer serving site: {e}")
+    except KeyboardInterrupt:
+        print(f"No longer serving site.")
+    finally:
         observer.stop()
-
-    observer.join()
+        observer.join()
