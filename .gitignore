@@ -8,6 +8,3 @@ wheels/
 
 # Virtual environments
 .venv
-
-# Testing files
-site/
