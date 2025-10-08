@@ -18,8 +18,7 @@ ignored_patterns = [
     ('README', None, None)
 ]
 
-
-def is_ignored_filename(filename):
+def is_ignored_filename(filename, ignored_patterns=[]):
     for prefix, suffix, contains in ignored_patterns:
         all_sat = True
         if prefix and not filename.startswith(prefix):

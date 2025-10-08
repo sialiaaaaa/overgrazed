@@ -80,8 +80,6 @@ def build_page(site_dir, page):
 
     return built_page
 
-
-
 def build_site(site_dir, dest_dir):
     """
     Build the site. First, copy everything except .md files and folders prefixed with '_' or '.' to the destination.
