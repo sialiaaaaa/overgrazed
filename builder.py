@@ -5,8 +5,9 @@ import sys
 
 from validator import is_ignored_filename
 
-md = markdown.Markdown(extensions=["meta", "footnotes", "mdx_wikilink_plus"],
+md = markdown.Markdown(extensions=["meta", "footnotes", "mdx_wikilink_plus", "fenced_code", "tables", "codehilite"],
                        extension_configs={
+                           "codehilite": {"linenums": True},
                            "mdx_wikilink_plus": {"end_url": ".html", "url_whitespace": "-", "url_case": "lowercase"}
                            }
                        ) # Set up md with extensions

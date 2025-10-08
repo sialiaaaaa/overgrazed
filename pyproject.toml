@@ -7,5 +7,6 @@ requires-python = ">=3.13"
 dependencies = [
     "markdown>=3.9",
     "mdx-wikilink-plus>=1.4.1",
+    "pygments>=2.19.2",
     "watchdog>=6.0.0",
 ]
