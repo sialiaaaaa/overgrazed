@@ -20,7 +20,7 @@ class DiffHandler(FileSystemEventHandler):
         path = Path(path)
 
         for ignore_dir in self.ignore_dirs:
-            if path.is_relative_to(ignore_dir) or path.isdir():
+            if path.is_relative_to(ignore_dir) or path.is_dir():
                 return True
 
         if is_ignored_filename(path.name):
