@@ -20,13 +20,11 @@ ignored_patterns = [
 
 def is_ignored_filename(filename):
     for prefix, suffix, contains in ignored_patterns:
-        all_sat = True
         if prefix and not filename.startswith(prefix):
-            all_sat = False
+            continue
         if suffix and not filename.endswith(suffix):
-            all_sat = False
+            continue
         if contains and contains not in filename:
-            all_sat = False
-        if all_sat:
-            return True
+            continue
+        return True
     return False

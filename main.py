@@ -30,13 +30,10 @@ def main():
             print(f"Failed to build site: {e}")
 
     if args.serve:
-        port = int(args.port) or 1814
+        port = int(args.port) if args.port else 1814
         server.serve_site(site_path, dest_path, port) # If the --serve option was chosen, call the server
 
     if args.new:
-        if site_path.exists(): # Check if the supplied folder exists, since this would cause an error anyway
-            print(f"A folder already exists at {site_path}. No files were created. Exiting...")
-            sys.exit()
         creator.create_new_site(site_path) # If the --new option was chosen, attempt to create a site at the destination
 
 
