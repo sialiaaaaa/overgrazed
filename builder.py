@@ -66,7 +66,26 @@ def build_page(site_path, page):
     if "template" in meta:
         template = format_template(site_path, meta["template"][0]) # Use the metadata to figure out which template to use, then format that template
     else:
-        raise ValueError(f"No template frontmatter was provided for page \"{page}\"")
+        print(f"Warning: No template was provided for {page}. Using fallback.")
+        template = """<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="styles.css">
+        <title>My Website</title>
+    </head>
+    <body>
+        <header>
+            <h1>My Website Header</h1>
+        </header>
+        <main>
+            {content}
+        </main>
+        <footer>
+            <h1>My Website Footer</h1>
+        </footer>
+    </body>
+</html>"""
 
 
     built_page = template.format(content=content) # Apply the content to the formatted template
